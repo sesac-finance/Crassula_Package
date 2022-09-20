@@ -247,7 +247,8 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-# Project Config Files
+# Project Config/Data Files
 *config*
+Chat_Room/
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,windows,python,visualstudiocode
