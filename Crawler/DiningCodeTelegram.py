@@ -3,6 +3,7 @@ from telegram.ext import Updater
 from telegram.ext import CommandHandler
 from DiningCodeCrawler import *
 from TextMessage import *
+from ChatManager import *
 import time
 
 # config 파일의 내용을 담을 딕셔너리 초기화
@@ -34,16 +35,36 @@ result =[]
 
 # ----------------------------------------------------------------------------------------------------
 
+def start(update, context):
+    """
+    봇 최초 실행 시 텔레그램 명령어의 목록과 사용 방법을 설명하고, 채팅방 ID를 저장하는 함수입니다.
+    """
+
+    # help() 함수를 호출해 실행
+    help(update, context)
+
+    # 현재 대화 중인 채팅방 ID를 찾아 chat_id 변수에 할당
+    chat_id = update.effective_chat.id
+
+    # chat_id_manager() 함수를 호출해 실행
+    chat_id_manager(chat_id, result)
+
+# ----------------------------------------------------------------------------------------------------
+
 def search(update, context):
-    """크롤링 함수를 실행해 검색 결과를 메시지로 전송하는 함수입니다.
+    """
+    크롤링 함수를 실행해 검색 결과를 메시지로 전송하는 함수입니다.
     """
     
-    # 매개변수로 받아온 값을 area, page 변수에 할당하고 안내 문구 출력 및 크롤링 함수 실행
+    # 매개변수로 받아온 값을 area, page 변수에 할당하고 안내 문구 출력
     area = context.args[0]
     page = context.args[1]
-    context.bot.send_message(chat_id = update.effective_chat.id, text = f"[ {area} ] 검색 결과 [ {page} ]페이지를 출력합니다.")
+    context.bot.send_message(chat_id = update.effective_chat.id, text = f"[ {area} ] 검색 결과 [ {page} ] 페이지를 출력합니다.")
 
-    global result
+    # 현재 대화 중인 채팅방 ID를 찾아 chat_id 변수에 할당
+    chat_id = update.effective_chat.id
+
+    # 크롤링 함수 실행 후 결과 값 result 변수에 할당
     result = dc_crawler(area, page)
 
    # 크롤링한 결과를 받아올 시간 동안 딜레이
@@ -65,14 +86,24 @@ def search(update, context):
         # response_text 문자열 문구를 출력
         context.bot.send_message(chat_id = update.effective_chat.id, text = response_text)
 
+    # chat_id_manager() 함수를 호출해 실행
+    chat_id_manager(chat_id, result)
+
 # ----------------------------------------------------------------------------------------------------
 
 def info(update, context):
-    """검색 결과 중에서 입력한 순위의 식당 상세 정보를 메시지로 전송하는 함수입니다.
+    """
+    검색 결과 중에서 입력한 순위의 식당 상세 정보를 메시지로 전송하는 함수입니다.
     """
 
+    # 현재 대화 중인 채팅방 ID를 찾아 chat_id 변수에 할당
+    chat_id = update.effective_chat.id
+
+    # chat_id의 검색 결과가 존재하는지 확인하는 result_exist 함수 호출해 결과 값을 result 변수에 할당
+    result = result_exist(chat_id)
+
     # 크롤링 결과가 존재하지 않는 경우 안내 문구 출력
-    if result == [] or result == ["error"]:
+    if not result:
         context.bot.send_message(chat_id = update.effective_chat.id, text = "기존에 검색한 결과가 존재하지 않습니다. 검색부터 실행해 주세요.")
 
     else:
@@ -88,7 +119,8 @@ def info(update, context):
 # ----------------------------------------------------------------------------------------------------
 
 def help(update, context):
-    """텔레그램 명령어의 목록과 사용 방법을 설명하는 함수입니다.
+    """
+    텔레그램 명령어의 목록과 사용 방법을 설명하는 함수입니다.
     """
 
     # help_message 함수를 호출해 response_text 문자열에 할당
@@ -98,7 +130,8 @@ def help(update, context):
 # ----------------------------------------------------------------------------------------------------
 
 def feedme(update, context):
-    """밥봇아, 밥 먹여 줘!
+    """
+    밥봇아, 밥 먹여 줘!
     """
 
     # 지정된 이미지 출력
@@ -107,12 +140,14 @@ def feedme(update, context):
 # ----------------------------------------------------------------------------------------------------
 
 # 각 이벤트에 대한 CommandHandler 객체 생성
+start_handler = CommandHandler("start", start)
 search_handler = CommandHandler("search", search)
 info_handler = CommandHandler("info", info)
 help_handler = CommandHandler("help", help)
 feedme_handler = CommandHandler("feedme", feedme)
 
 # 각 CommandHandler 객체를 Dispatcher 객체에 추가
+dispatcher.add_handler(start_handler)
 dispatcher.add_handler(search_handler)
 dispatcher.add_handler(info_handler)
 dispatcher.add_handler(help_handler)
