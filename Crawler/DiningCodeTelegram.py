@@ -20,7 +20,7 @@ with open("./telegram_config", "r") as f:
 
 # config 파일에서 읽어온 값을 각 변수에 할당
 token = telegram_config["token"]
-chat_id = telegram_config["chat_id"]
+my_chat_id = telegram_config["chat_id"]
 group_id = telegram_config["group_id"]
 
 # token 변수로 봇을 생성하고 신규 메시지를 감시하는 Updater 객체를 생성
@@ -41,7 +41,7 @@ def search(update, context):
     # 매개변수로 받아온 값을 area, page 변수에 할당하고 안내 문구 출력 및 크롤링 함수 실행
     area = context.args[0]
     page = context.args[1]
-    context.bot.send_message(chat_id = chat_id, text = f"[ {area} ] 검색 결과 [ {page} ]페이지를 출력합니다.")
+    context.bot.send_message(chat_id = update.effective_chat.id, text = f"[ {area} ] 검색 결과 [ {page} ]페이지를 출력합니다.")
 
     global result
     result = dc_crawler(area, page)
@@ -51,11 +51,11 @@ def search(update, context):
 
     # 6페이지 이상을 입력하거나 크롤링 결과가 존재하지 않는 경우 안내 문구 출력
     if int(page) > 5 or result == []:
-        context.bot.send_message(chat_id = chat_id, text = "검색 결과가 존재하지 않습니다.")
+        context.bot.send_message(chat_id = update.effective_chat.id, text = "검색 결과가 존재하지 않습니다.")
 
    # 서버 요청 과정에 오류가 발생한 경우 안내 문구 출력
     elif result == ["error"]:
-        context.bot.send_message(chat_id = chat_id, text = "서버 요청 과정에 오류가 발생했습니다.")
+        context.bot.send_message(chat_id = update.effective_chat.id, text = "서버 요청 과정에 오류가 발생했습니다.")
 
     else:
 
@@ -63,7 +63,7 @@ def search(update, context):
         response_text = search_message(page, result)
 
         # response_text 문자열 문구를 출력
-        context.bot.send_message(chat_id = chat_id, text = response_text)
+        context.bot.send_message(chat_id = update.effective_chat.id, text = response_text)
 
 # ----------------------------------------------------------------------------------------------------
 
@@ -73,7 +73,7 @@ def info(update, context):
 
     # 크롤링 결과가 존재하지 않는 경우 안내 문구 출력
     if result == [] or result == ["error"]:
-        context.bot.send_message(chat_id = chat_id, text = "기존에 검색한 결과가 존재하지 않습니다. 검색부터 실행해 주세요.")
+        context.bot.send_message(chat_id = update.effective_chat.id, text = "기존에 검색한 결과가 존재하지 않습니다. 검색부터 실행해 주세요.")
 
     else:
         # 매개변수로 받아온 값을 ranking 변수에 할당하고 info_message 함수를 호출
@@ -83,7 +83,7 @@ def info(update, context):
         response_text = info_message(ranking, result)
 
         # response_text 문자열 문구를 출력
-        context.bot.send_message(chat_id = chat_id, text = response_text, parse_mode = "Markdown")
+        context.bot.send_message(chat_id = update.effective_chat.id, text = response_text, parse_mode = "Markdown")
 
 # ----------------------------------------------------------------------------------------------------
 
@@ -93,7 +93,7 @@ def help(update, context):
 
     # help_message 함수를 호출해 response_text 문자열에 할당
     response_text = help_message()
-    context.bot.send_message(chat_id = chat_id, text = response_text)
+    context.bot.send_message(chat_id = update.effective_chat.id, text = response_text)
 
 # ----------------------------------------------------------------------------------------------------
 
@@ -102,7 +102,7 @@ def feedme(update, context):
     """
 
     # 지정된 이미지 출력
-    context.bot.send_document(chat_id = chat_id, document = open("./FeedMe.gif", "rb"), caption = "입 벌리세요.")
+    context.bot.send_document(chat_id = update.effective_chat.id, document = open("./FeedMe.gif", "rb"), caption = "입 벌리세요.")
 
 # ----------------------------------------------------------------------------------------------------
 
