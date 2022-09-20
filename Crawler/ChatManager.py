@@ -9,11 +9,12 @@ def chat_id_manager(chat_id, result):
     """
 
     # chat_id를 json 파일에 저장 및 result 변수 초기화
-    with open("./Chat_Room/ChatID.json", "r") as openfile:
-        chat_rooms = json.load(openfile)
-        chat_rooms[str(chat_id)] = result
-        with open("./Chat_Room/ChatID.json", "w") as savefile:
-            json.dump(chat_rooms, savefile)
+    temp = {}
+    temp["ID"] = chat_id
+    temp["Log"] = result
+
+    with open(f"./ChatLog/{chat_id}.json", "w", encoding = "utf-8") as savefile:
+        json.dump(temp, savefile)
 
     return print(f"채팅방 ID({chat_id})가 기록되었습니다.")
 
@@ -25,14 +26,14 @@ def result_exist(chat_id):
     """
 
     # json 파일을 열어 딕셔너리로 가져오기
-    with open("./Chat_Room/ChatID.json", "r") as openfile:
-        chat_rooms = json.load(openfile)
+    with open(f"./ChatLog/{chat_id}.json", "r") as openfile:
+        chat_logs = json.load(openfile)
 
         # 해당 채팅방의 검색 결과가 존재하지 않는 경우 False 값 반환
-        if chat_rooms[str(chat_id)] == [] or chat_rooms[str(chat_id)] == ["error"]:
+        if chat_logs["Log"] == [] or chat_logs["Log"] == ["error"]:
             return False
 
         # 해당 채팅방의 검색 결과가 존재하는 경우 결과 반환
         else:
-            result = chat_rooms[str(chat_id)]
+            result = chat_logs["Log"]
             return result
