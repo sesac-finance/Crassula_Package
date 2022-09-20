@@ -19,10 +19,8 @@ with open("./telegram_config", "r") as f:
         key, value = config.rstrip().split(" = ")
         telegram_config[key] = value
 
-# config 파일에서 읽어온 값을 각 변수에 할당
+# config 파일에서 읽어온 값을 변수에 할당
 token = telegram_config["token"]
-my_chat_id = telegram_config["chat_id"]
-group_id = telegram_config["group_id"]
 
 # token 변수로 봇을 생성하고 신규 메시지를 감시하는 Updater 객체를 생성
 updater = Updater(token = token, use_context = True)

@@ -48,7 +48,10 @@ def help_message():
     """
 
     # 결과로 출력할 response_text 문자열 설정
-    response_text = """※ /help : 명령어 전체 목록 출력
+    response_text = """밥봇의 명령어는 다음과 같습니다.
+    
+※ /start : 봇과의 대화 새로 시작, 기존 검색 결과 초기화
+※ /help : 명령어 전체 목록 출력
 ※ /search [지역] [페이지] : 다이닝 코드의 검색 결과 출력
     (예) /search 문래동 1
 ※ /info [식당 순위] : 검색 결과에서 특정 순위 식당의 상세 정보 확인
