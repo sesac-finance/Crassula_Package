@@ -39,7 +39,7 @@ def dc_crawler(area, page):
     # for 반복문을 통해 rstaurant_list의 restaurant를 순회
     for restaurant in restaurant_list["result_data"]["poi_section"]["list"]:
 
-        # 상호, 주소, 연락처, 분류, 점수를 추출해 딕셔너리 내의 딕셔너리로 임시 저장
+        # 상호, 주소, 연락처, 분류, 점수, 링크를 추출해 딕셔너리 내의 딕셔너리로 임시 저장
         name = restaurant["nm"]
         address = restaurant["addr"]
         phone = restaurant["phone"]
