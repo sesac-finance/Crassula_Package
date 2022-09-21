@@ -1,4 +1,4 @@
-<p align = "center"><img src = "/Thumbnail/Logo.png" width = "500"></p>
+<p align = "center"><img src = "Thumbnail/Logo.png" width = "500"></p>
 <p>&nbsp;</p>
 <p style="font-family: 을유1945; font-size: 25px;">1. 프로젝트 개요</p>
 <p  style="font-family: 을유1945; font-size: 17px;">&nbsp;&nbsp;&nbsp;&nbsp;사용자로부터 지역과 페이지 수를 입력받으면, 빅데이터 맛집 검색 서비스를 제공하는 '<a href = "https://www.diningcode.com/">다이닝코드</a>(DiningCode)' 홈페이지에서 검색한 결과를 크롤링(Crawling)을 통해 가져와 보여주는 '텔레그램(Telegram)' 봇(Bot)입니다.</p>
@@ -51,4 +51,4 @@ python Bobbot.py
 ---
 
 <p style="font-family: 을유1945; font-size: 25px;">4. 패키지 구조</p>
-<p><img src = "/Thumbnail/FileTree.png" width = "800"></p>
+<p><img src = "Thumbnail/FileTree.png" width = "800"></p>
