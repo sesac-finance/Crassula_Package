@@ -11,8 +11,9 @@ def start(update, context):
     봇 최초 실행 시 텔레그램 명령어의 목록과 사용 방법을 설명하고, 채팅방 ID를 저장하는 함수입니다.
     """
 
-    # 크롤링한 결과를 담을 result 리스트 초기화
+    # 크롤링한 결과를 담을 result 리스트, 페이지 수 초기화
     result =[]
+    page = 0
 
     # help() 함수를 호출해 실행
     help(update, context)
@@ -21,7 +22,7 @@ def start(update, context):
     chat_id = update.effective_chat.id
 
     # chat_id_manager() 함수를 호출해 실행
-    chat_id_manager(chat_id, result)
+    chat_id_manager(chat_id, result, page)
 
 # ----------------------------------------------------------------------------------------------------
 
@@ -60,7 +61,7 @@ def search(update, context):
         context.bot.send_message(chat_id = update.effective_chat.id, text = response_text)
 
     # chat_id_manager() 함수를 호출해 실행
-    chat_id_manager(chat_id, result)
+    chat_id_manager(chat_id, result, int(page))
 
 # ----------------------------------------------------------------------------------------------------
 
@@ -73,18 +74,18 @@ def info(update, context):
     chat_id = update.effective_chat.id
 
     # chat_id의 검색 결과가 존재하는지 확인하는 result_exist 함수 호출해 결과 값을 result 변수에 할당
-    result = result_exist(chat_id)
+    result, page = result_exist(chat_id)
 
     # 크롤링 결과가 존재하지 않는 경우 안내 문구 출력
     if not result:
         context.bot.send_message(chat_id = update.effective_chat.id, text = "기존에 검색한 결과가 존재하지 않습니다. 검색부터 실행해 주세요.")
 
     else:
-        # 매개변수로 받아온 값을 ranking 변수에 할당하고 info_message 함수를 호출
+        # 매개변수로 받아온 값을 ranking 변수에 할당하고, page 변수 가져오기
         ranking = context.args[0]
 
         # info_message 함수를 호출해 response_text 문자열에 할당
-        response_text = info_message(ranking, result)
+        response_text = info_message(ranking, result, page)
 
         # response_text 문자열 문구를 출력
         context.bot.send_message(chat_id = update.effective_chat.id, text = response_text, parse_mode = "Markdown")

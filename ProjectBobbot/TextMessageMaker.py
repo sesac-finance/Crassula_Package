@@ -18,13 +18,18 @@ def search_message(page, result):
 
 # ----------------------------------------------------------------------------------------------------
 
-def info_message(ranking, result):
+def info_message(ranking, result, page):
     """
-    순위(ranking)와 크롤링한 결과(result)를 입력받아 봇이 보낼 메시지를 반환하는 함수입니다.
+    순위(ranking)와 크롤링한 결과(result), 페이지 수(page)를 입력받아 봇이 보낼 메시지를 반환하는 함수입니다.
     """
     
-    # 메시지로 출력할 결과가 담긴 인덱스를 index 변수에 할당
+    # 메시지로 출력할 결과가 담긴 인덱스를 index 변수에 할당하고, 존재하는 순위인지 검증할 ranking_exist 변수 초기화
     index = int(ranking) % 20 - 1
+    ranking_exist = (int(ranking) - 1) // 20 + 1
+
+    # 존재하지 않는 순위일 경우 출력할 문자열 설정
+    if ranking_exist != page:
+        return "존재하지 않는 순위입니다."
 
     # 필요한 정보를 추출해 각 변수로 할당
     name = result[index]["상호"]
