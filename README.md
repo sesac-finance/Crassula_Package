@@ -46,7 +46,7 @@ cd ProjectBobbot
 ⑥ 채팅 로그를 저장할 ChatLog 폴더를 생성합니다.
 
 ```bash
-mkdir Chatlog
+mkdir ChatLog
 ```
 
 ⑦ Bobbot.py 파일을 실행합니다.
