@@ -40,9 +40,16 @@ pip install -r requirements.txt
 ```bash
 cd ProjectBobbot
 ```
+
 ⑤ telegram_config 파일을 만들고 첫째 줄에 "token = [텔레그램에서 발급 받은 봇 토큰]"을 입력 후 저장합니다.
 
-⑥ Bobbot.py 파일을 실행합니다.
+⑥ 채팅 로그를 저장할 ChatLog 폴더를 생성합니다.
+
+```bash
+mkdir Chatlog
+```
+
+⑦ Bobbot.py 파일을 실행합니다.
 
 
 ```bash
